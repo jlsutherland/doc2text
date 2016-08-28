@@ -3,3 +3,7 @@ include LICENSE.txt
 
 # Include the data files
 recursive-include doc2text data *
+
+# added by check_manifest.py
+include tox.ini
+recursive-include tests *.py
