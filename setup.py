@@ -22,7 +22,7 @@ setup(
     version='0.1.0',
 
     description='doc2text drastically improves the extraction of text from images by fixing resolution, text area (crop), and skew.',
-    long_description='doc2text drastically improves the extraction of text from images by fixing resolution, text area (crop), and skew.',
+    long_description=long_description,
 
     # The project's main homepage.
     url='https://github.com/jlsutherland/doc2text',
