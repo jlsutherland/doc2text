@@ -1,54 +1,53 @@
 language: python
-
 os:
-  - linux
-
+- linux
 branches:
   only:
-    - master
-
+  - master
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5.2"
-
+- '2.6'
+- '2.7'
+- '3.3'
+- '3.4'
+- 3.5.2
 before_install:
-  - if [[ $TRAVIS_OS_NAME == linux   ]]; then LINUX=true; fi
-  - if [[ $TRAVIS_OS_NAME == osx     ]]; then OSX=true; fi
-  - if [[ $OSX ]]; then brew update; fi
-  - if [[ $LINUX ]]; then sudo apt-get update; fi
-  - export LEPT_VER=1.73
-
+- if [[ $TRAVIS_OS_NAME == linux   ]]; then LINUX=true; fi
+- if [[ $TRAVIS_OS_NAME == osx     ]]; then OSX=true; fi
+- if [[ $OSX ]]; then brew update; fi
+- if [[ $LINUX ]]; then sudo apt-get update; fi
+- export LEPT_VER=1.73
 install:
-
-  # OpenCV
-  - sudo apt-get install -y build-essential
-  - sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-  - sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-  - git clone https://github.com/opencv/opencv.git opencv
-  - git clone https://github.com/opencv/opencv_contrib.git opencv_contrib
-  - cd opencv
-  - git checkout 3.1.0
-  - cd ../opencv_contrib
-  - git checkout 3.1.0
-  - cd ../opencv
-  - mkdir build
-  - cd build
-  - cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=ON -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D BUILD_EXAMPLES=ON ..
-  - make -j7
-  - sudo make install
-  - sudo ldconfig
-  - echo "OpenCV installed."
-
-  # Tesseract.
-  - sudo apt-get install tesseract-ocr
-
-  # Python
-  - pip install tox
-
+- sudo apt-get install -y build-essential
+- sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev
+  libswscale-dev
+- sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev
+  libtiff-dev libjasper-dev libdc1394-22-dev
+- git clone https://github.com/opencv/opencv.git opencv
+- git clone https://github.com/opencv/opencv_contrib.git opencv_contrib
+- cd opencv
+- git checkout 3.1.0
+- cd ../opencv_contrib
+- git checkout 3.1.0
+- cd ../opencv
+- mkdir build
+- cd build
+- cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF
+  -D INSTALL_PYTHON_EXAMPLES=ON -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules
+  -D BUILD_EXAMPLES=ON ..
+- make -j7
+- sudo make install
+- sudo ldconfig
+- echo "OpenCV installed."
+- sudo apt-get install tesseract-ocr
+- pip install tox
 script: tox
-
 notifications:
   email: true
+deploy:
+  provider: pypi
+  user: jlsutherland
+  password:
+    secure: EU3LFlgXLEqJ/4wTLp+00GspndRIwGwzOdFe9uRgAbnt2TPAD5uP2CVYyggY79fa+Z1b3Eq/QUt8C4z3DqxDs0hINR2iuBBvsQV7Ze4PWCMg2q5+s+SeZmAPRG6dS37/2Mf0bQrgD+O6kMc33j/h3IcFgO+S/Dt6BN7qFw+tWGAYcH5GwH/RSAto/r5ZLi44lA41cIZegWUgAwRWfBnpxxD3yjjvcTIpPOfSu1QujWkn+nLeDP/0tmyhhHCNSEy4DAGoxsz1+VXGp1QW7oeu/mDFoP4MinznpL+8phAA+4LFXH8H6HxB58kobWq80ibCne+nCXGBzjc2/Wr8V3MFGPmWyquA4Q5Gmb6S6E12HleL09nLIRYvhvtg2CxUCGCPg64YiIrs6IQ6G5NjoVX+D9bBGutOxiZQ7zQjq4YImtakQ8lL1SGVUENtDC7ST4JwgTjFoojt1MNjN4JEj2WXky1+a3wWYl/nVSYl5K4+lDuEOUFaAgCSuBdaz9FyHrKMZ5eV2pxtuFlj5DlferGCgRaZudEvfjODjTVkAldQfqvn+znvQa3JsCJo/aJZIb9Gtj3Ve0pmmLBkZdV3gnlKAWv3GjKaa02b4oTLUE+YwRrWqLawEEjOnzdB+L7rFe3akct0SYNSu9BSM5GblmSGhEh0b++14NVgkc1mwiSsvrk=
+  on:
+    tags: true
+    branch: master
