@@ -1,0 +1,57 @@
+language: python
+
+os:
+  - linux
+
+branches:
+  only:
+    - master
+
+env:
+  - TOXENV=py26
+  - TOXENV=py27
+  - TOXENV=py33
+  - TOXENV=py34
+
+before_install:
+  - if [[ $TRAVIS_OS_NAME == linux   ]]; then LINUX=true; fi
+  - if [[ $TRAVIS_OS_NAME == osx     ]]; then OSX=true; fi
+  - if [[ $OSX ]]; then brew update; fi
+  - if [[ $LINUX ]]; then sudo apt-get update; fi
+  - export LEPT_VER=1.73
+
+install:
+
+  # OpenCV
+  - sudo apt-get install -y build-essential
+  - sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+  - sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+  - git clone https://github.com/opencv/opencv.git opencv
+  - git clone https://github.com/opencv/opencv_contrib.git opencv_contrib
+  - cd opencv
+  - git checkout 3.1.0
+  - cd ../opencv_contrib
+  - git checkout 3.1.0
+  - cd ../opencv
+  - mkdir build
+  - cd build
+  - cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=ON -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules -D BUILD_EXAMPLES=ON ..
+  - make -j7
+  - sudo make install
+  - sudo ldconfig
+  - echo "OpenCV installed."
+
+  # Tesseract.
+  - sudo apt-get install tesseract-ocr
+
+  # Python
+  - pip install tox
+
+python:
+  - "2.7"
+  - "3.5.2"
+
+script: tox
+
+notifications:
+  email: true
