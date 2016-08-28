@@ -1,5 +1,5 @@
 import PyPDF2 as pyPdf
-from page import Page
+from .page import Page
 
 def main():
     """Entry point for the application script"""
