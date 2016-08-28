@@ -7,11 +7,12 @@ branches:
   only:
     - master
 
-env:
-  - TOXENV=py26
-  - TOXENV=py27
-  - TOXENV=py33
-  - TOXENV=py34
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5.2"
 
 before_install:
   - if [[ $TRAVIS_OS_NAME == linux   ]]; then LINUX=true; fi
@@ -46,10 +47,6 @@ install:
 
   # Python
   - pip install tox
-
-python:
-  - "2.7"
-  - "3.5.2"
 
 script: tox
 
