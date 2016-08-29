@@ -20,4 +20,9 @@ sudo ldconfig
 echo "OpenCV installed."
 
 # Install tesseract
-sudo apt-get install tesseract-ocr
+sudo apt-get install -y tesseract-ocr
+echo "tesseract installed."
+
+# Install PythonMagick
+sudo apt-get install -y python-pythonmagick
+echo "PythonMagick installed"
