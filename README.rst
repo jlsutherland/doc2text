@@ -34,11 +34,13 @@ Installation
 To install the `doc2text` package, simply:
 
 .. code-block:: python
+
    pip install doc2text
 
 `doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_, `tesseract <http://github.com/tesseract-ocr/tesseract>`_, and `PythonMagick` libraries. To execute the quick-install script, which installs OpenCV, tesseract, and PythonMagick:
 
 .. code-block:: bash
+
    curl https://raw.githubusercontent.com/jlsutherland/doc2text/master/install_deps.sh | bash
 
 Manual installation
@@ -46,6 +48,7 @@ Manual installation
 To install OpenCV manually:
 
 .. code-block:: bash
+
    sudo apt-get install -y build-essential
    sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
    sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
@@ -66,9 +69,11 @@ To install OpenCV manually:
 To install tesseract manually:
 
 .. code-block:: bash
+
    sudo apt-get install tesseract-ocr
 
 To install PythonMagick manually:
 
 .. code-block:: bash
+
    sudo apt-get install python-pythonmagick
