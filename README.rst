@@ -19,7 +19,9 @@ their pdfs as possible.
 `doc2text` is developed and tested on Ubuntu 16.04 LTS Xenial Xerus. We do not pretend to serve all operating systems at the moment because that would be irresponsible. Please use this software with a huge grain of salt. We are currently working on:
 
 - Increasing the responsiveness of the text block identifier.
-- Optimizing the binarization for tesseract detection
+- Optimizing the binarization for tesseract detection.
+- Identifying text in multiple columns (right now, treats as one big column).
+- Handling tables.
 - Many other optimizations.
 
 Support and Contributions
@@ -34,11 +36,13 @@ To install the `doc2text` package, simply:
 .. code-block:: python
    pip install doc2text
 
-`doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_ and `tesseract <http://github.com/tesseract-ocr/tesseract>`_ libraries. To execute the quick-install script, which installs both OpenCV and tesseract:
+`doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_, `tesseract <http://github.com/tesseract-ocr/tesseract>`_, and `PythonMagick` libraries. To execute the quick-install script, which installs OpenCV, tesseract, and PythonMagick:
 
 .. code-block:: bash
-   curl https://raw.githubusercontent.com/jlsutherland/doc2text/master/install_opencv.sh | bash
+   curl https://raw.githubusercontent.com/jlsutherland/doc2text/master/install_deps.sh | bash
 
+Manual installation
+~~~~~~~~~~~~~~~~~~~
 To install OpenCV manually:
 
 .. code-block:: bash
@@ -63,3 +67,8 @@ To install tesseract manually:
 
 .. code-block:: bash
    sudo apt-get install tesseract-ocr
+
+To install PythonMagick manually:
+
+.. code-block:: bash
+   sudo apt-get install python-pythonmagick
