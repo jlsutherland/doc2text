@@ -7,9 +7,25 @@ doc2text
 .. image:: https://badge.fury.io/py/doc2text.svg
     :target: https://badge.fury.io/py/doc2text
 
-About `doc2text`
-----------------
-Developing the text corpora can be a massive pain in the butt. Much of the text data we are interested in as economists, political scientists, historians   `doc2text` was created because as a researcher,
+
+`doc2text` extracts higher quality text by fixing common scan errors
+--------------------------------------------------------------------
+Developing text corpora can be a massive pain in the butt. Much of the text data we are interested in as scientists are locked away in pdfs that are poorly scanned. These scans can be off kilter, poor resolution, have a hand in them... and if you OCR these scans without fixing these errors, the OCR doesn't turn out so well. `doc2text` was created to help researchers fix these errors and extract the highest quality text from
+their pdfs as possible.
+
+
+`doc2text` is super duper alpha atm
+-----------------------------------
+`doc2text` is developed and tested on Ubuntu 16.04 LTS Xenial Xerus. We do not pretend to serve all operating systems at the moment because that would be irresponsible. Please use this software with a huge grain of salt. We are currently working on:
+
+- Increasing the responsiveness of the text block identifier.
+- Optimizing the binarization for tesseract detection
+- Many other optimizations.
+
+Support and Contributions
+-------------------------
+If you have feedback or would like to contribute, *please, please* submit a pull request or contact me at `joseph dot sutherland at columbia dot edu`.
+
 
 Installation
 ------------
@@ -18,12 +34,12 @@ To install the `doc2text` package, simply:
 .. code-block:: python
    pip install doc2text
 
-`doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_ and `tesseract <http://github.com/tesseract-ocr/tesseract>`_ libraries. To execute the quick-install script:
+`doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_ and `tesseract <http://github.com/tesseract-ocr/tesseract>`_ libraries. To execute the quick-install script, which installs both OpenCV and tesseract:
 
 .. code-block:: bash
-   curl https://raw.githubusercontent.com/jlsutherland/doc2text/master/install_opencv.sh | sh
+   curl https://raw.githubusercontent.com/jlsutherland/doc2text/master/install_opencv.sh | bash
 
-To install OpenCV on Ubuntu 16.04 Xenial:
+To install OpenCV manually:
 
 .. code-block:: bash
    sudo apt-get install -y build-essential
@@ -42,5 +58,8 @@ To install OpenCV on Ubuntu 16.04 Xenial:
    make -j4
    sudo make install
    sudo ldconfig
-   echo "OpenCV installed."
+
+To install tesseract manually:
+
+.. code-block:: bash
    sudo apt-get install tesseract-ocr
