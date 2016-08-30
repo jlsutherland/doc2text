@@ -37,7 +37,7 @@ To install the `doc2text` package, simply:
 
    pip install doc2text
 
-`doc2text` relies on the the `OpenCV <http://github.com/opencv/opencv>`_, `tesseract <http://github.com/tesseract-ocr/tesseract>`_, and `PythonMagick` libraries. To execute the quick-install script, which installs OpenCV, tesseract, and PythonMagick:
+`doc2text` relies on the `OpenCV <http://github.com/opencv/opencv>`_, `tesseract <http://github.com/tesseract-ocr/tesseract>`_, and `PythonMagick` libraries. To execute the quick-install script, which installs OpenCV, tesseract, and PythonMagick:
 
 .. code-block:: bash
 
