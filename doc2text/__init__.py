@@ -66,7 +66,7 @@ class Document:
             temp_path = os.path.normpath(os.path.join(
                 self.file_basepath, self.file_basename + '_temp.png'
             ))
-            img.write(temp_path)
+            im.write(temp_path)
             orig_im = cv2.imread(temp_path, 0)
             os.remove(temp_path)
             page = Page(orig_im, 0)
