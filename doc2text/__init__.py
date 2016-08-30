@@ -94,7 +94,7 @@ class Document:
             raise Exception('You must run `process()` first.')
 
     def get_text(self):
-        if len(self.processed_pages) > 0:
+        if len(self.page_content) > 0:
             return "\n".join(self.page_content)
         else:
             raise Exception('You must run `extract_text()` first.')
