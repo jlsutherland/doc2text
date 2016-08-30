@@ -7,6 +7,8 @@ from scipy.ndimage.filters import rank_filter
 from scipy import stats
 import pytesseract
 import os
+import traceback
+import sys
 
 class Page:
     def __init__(self, im, page_num):
@@ -22,6 +24,10 @@ class Page:
             self.crop_shape = self.image.shape
             return self.image
         except Exception as e:
+            for frame in traceback.extract_tb(sys.exc_info()[2]):
+                fname,lineno,fn,text = frame
+                print "Error in %s on line %d" % (fname, lineno)
+                print e
             self.err = e
             self.healthy = False
 
