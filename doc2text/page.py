@@ -7,6 +7,8 @@ from scipy.ndimage.filters import rank_filter
 from scipy import stats
 import pytesseract
 import os
+import traceback
+import sys
 
 class Page:
     def __init__(self, im, page_num):
@@ -22,6 +24,10 @@ class Page:
             self.crop_shape = self.image.shape
             return self.image
         except Exception as e:
+            for frame in traceback.extract_tb(sys.exc_info()[2]):
+                fname,lineno,fn,text = frame
+                print "Error in %s on line %d" % (fname, lineno)
+                print e
             self.err = e
             self.healthy = False
 
@@ -85,7 +91,11 @@ def find_components(im, max_components=16):
     while count > max_components:
         n += 1
         sigma += 0.005
-        _, contours, hierarchy = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        result = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        if len(result) == 3:
+            _, contours, hierarchy = result
+        elif len(result) == 2:
+            contours, hierarchy = result
         possible = find_likely_rectangles(contours, sigma)
         count = len(possible)
 
