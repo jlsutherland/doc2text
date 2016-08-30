@@ -103,6 +103,7 @@ Big thanks
 ----------
 
 doc2text would be nothing without the open-source contributions of:
+
 - `@danvk <http://github.com/danvk>`_
 - `@jrosebr1 <http://github.com/jrosebr1>`_
 - Countless stackoverflow posts and comments.
