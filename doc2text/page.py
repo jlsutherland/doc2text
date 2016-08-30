@@ -2,7 +2,6 @@
 
 import cv2
 import numpy as np
-import PythonMagick
 from PIL import Image, ImageDraw
 from scipy.ndimage.filters import rank_filter
 from scipy import stats
@@ -10,27 +9,11 @@ import pytesseract
 import os
 
 class Page:
-    def __init__(self, orig_path, out_path):
+    def __init__(self, im, page_num):
         self.healthy = True
         self.err = False
-        self.out_path = out_path
-        self.file_basename = os.path.basename(orig_path)
-        self.file_ext = self.file_basename.split('.')[1]
-        self.file_basepath = os.path.dirname(orig_path)
-
-        if self.file_ext is not '.png':
-            img = PythonMagick.Image()
-            img.density("300")
-            img.read(orig_path)
-            temp_path = os.path.normpath(os.path.join(
-                self.file_basepath, self.file_basename + '_temp.png'
-            ))
-            img.write(temp_path)
-            self.orig_im = cv2.imread(temp_path, 0)
-            os.remove(temp_path)
-        else:
-            self.orig_im = cv2.imread(orig_path, 0)
-
+        self.page_num = page_num
+        self.orig_im = im
         self.orig_shape = self.orig_im.shape
 
     def crop(self):
@@ -44,27 +27,26 @@ class Page:
 
     def deskew(self):
         try:
-            self.image = process_skewed_crop(self.image)
+            self.image, self.theta_est = process_skewed_crop(self.image)
             return self.image
         except Exception as e:
             self.err = e
             self.healthy = False
 
     def extract_text(self):
-        temp_path = os.path.normpath(os.path.join(
-            self.file_basepath, self.file_basename + '_temp.png'
-        ))
+        temp_path = 'text_temp.png'
         cv2.imwrite(temp_path, self.image)
-        self.text = pytesseract.image_to_string(Image.open(temp_path)))
+        self.text = pytesseract.image_to_string(Image.open(temp_path))
         os.remove(temp_path)
         return self.text
 
-    def save(self):
+    def save(self, out_path):
         if not self.healthy:
             print "There was an error when cropping"
             raise Exception(self.err)
         else:
-            self.imwrite(self.out_path, self.image)
+            self.imwrite(out_path, self.image)
+
 
 def auto_canny(image, sigma=0.33):
     v = np.median(image)

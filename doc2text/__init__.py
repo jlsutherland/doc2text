@@ -1,25 +1,103 @@
 import PyPDF2 as pyPdf
+import PythonMagick
 import os
+import mimetypes
+import cv2
 from .page import Page
+
+acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpg", "video/JPEG", "video/jpeg2000"]
 
 def main():
     """Entry point for the application script"""
     print("Call your main application code here")
 
-def Document:
-    def __init__(self, path):
-        self.file_ext = os.path.basename(path).split('.')[1]
-        # see if it is a pdf
-        # if it's a pdf, then peel all of the pages off
-        # for each page, perform the basic operation
-        # have a save function to save the text from the pages
-        # or the converted pages themselves.
+
+FileNotAcceptedException = Exception('The filetype is not acceptable. We accept bmp, png, tiff, jpg, jpeg, jpeg2000, and PDF.')
+
+
+class Document:
+    def __init__(self):
+        self.pages = []
+        self.processed_pages = []
+        self.page_content = []
+        self.prepared = False
+        self.error = None
+
+    def read(self, path):
+        filename, self.file_extension = os.path.splitext(path)
+        self.path = path
+        self.filename = os.path.basename(path)
+        self.mime_type = mimetypes.guess_type(path)
+        self.file_basepath = os.path.dirname(path)
+
+        # If the file is a pdf, split the pdf and prep the pages.
+        if self.mime_type[0] == "application/pdf":
+            file_temp = open(self.path, 'rb')
+            pdf_reader = pyPdf.PdfFileReader(file_temp)
+            self.num_pages = pdf_reader.numPages
+            try:
+                for i in xrange(self.num_pages):
+                    output = pyPdf.PdfFileWriter()
+                    output.addPage(pdf_reader.getPage(i))
+                    path = 'temp.pdf'
+                    im_path = 'temp.png'
+                    with open(path, 'wb') as f:
+                        output.write(f)
+                    im = PythonMagick.Image()
+                    im.density("300")
+                    im.read(path)
+                    im.write(im_path)
+                    orig_im = cv2.imread(im_path, 0)
+                    page = Page(orig_im, i)
+                    self.pages.append(page)
+                    os.remove(path)
+                    os.remove(im_path)
+                self.prepared = True
+            except Exception as e:
+                self.error = e
+                raise
+
+        # If the file is an image, think of it as a 1-page pdf.
+        elif self.mime_type[0] in acceptable_mime:
+            self.num_pages = 1
+            im = PythonMagick.Image()
+            im.density("300")
+            im.read(path)
+            temp_path = os.path.normpath(os.path.join(
+                self.file_basepath, self.file_basename + '_temp.png'
+            ))
+            img.write(temp_path)
+            orig_im = cv2.imread(temp_path, 0)
+            os.remove(temp_path)
+            page = Page(orig_im, 0)
+            self.pages.append(page)
+
+        # Otherwise, out of luck.
+        else:
+            print self.mime_type[0]
+            raise FileNotAcceptedException
 
     def process(self):
-        stuff = stuff
+        for page in self.pages:
+            new = page
+            new.crop()
+            new.deskew()
+            self.processed_pages.append(new)
+
+    def extract_text(self):
+        if len(self.processed_pages) > 0:
+            for page in self.processed_pages:
+                new = page
+                text = new.extract_text()
+                self.page_content.append(text)
+        else:
+            raise Exception('You must run `process()` first.')
 
     def get_text(self):
-        stuff = stuff
+        if len(self.processed_pages) > 0:
+            return "\n".join(self.page_content)
+        else:
+            raise Exception('You must run `extract_text()` first.')
 
     def save_pages(self):
         stuff = stuff
