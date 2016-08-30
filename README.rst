@@ -77,3 +77,32 @@ To install PythonMagick manually:
 .. code-block:: bash
 
    sudo apt-get install python-pythonmagick
+
+Example usage
+-------------
+
+.. code-block:: python
+
+   import doc2text
+
+   # Initialize the class.
+   doc = doc2text.Document()
+
+   # Read the file in. Currently accepts pdf, png, jpg, bmp, tiff.
+   # If reading a PDF, doc2text will split the PDF into its component pages.
+   doc.read('./path/to/my/file')
+
+   # Crop the pages down to estimated text regions, deskew, and optimize for OCR.
+   doc.process()
+
+   # Extract text from the pages.
+   doc.extract_text()
+   text = doc.get_text()
+
+Big thanks
+----------
+
+doc2text would be nothing without the open-source contributions of:
+- `@danvk <http://github.com/danvk>`_
+- `@jrosebr1 <http://github.com/jrosebr1>`_
+- Countless stackoverflow posts and comments.
