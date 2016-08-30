@@ -91,7 +91,7 @@ def find_components(im, max_components=16):
     while count > max_components:
         n += 1
         sigma += 0.005
-        _, contours, hierarchy = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         possible = find_likely_rectangles(contours, sigma)
         count = len(possible)
 
