@@ -24,9 +24,9 @@ class Document:
         self.error = None
 
     def read(self, path):
-        filename, self.file_extension = os.path.splitext(path)
-        self.path = path
         self.filename = os.path.basename(path)
+        self.file_basename, self.file_extension = os.path.splitext(self.filename)
+        self.path = path
         self.mime_type = mimetypes.guess_type(path)
         self.file_basepath = os.path.dirname(path)
 
