@@ -19,7 +19,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='doc2text',
-    version='0.1.0',
+    version='0.2.0',
 
     description='doc2text drastically improves the extraction of text from images by fixing resolution, text area (crop), and skew.',
     long_description=long_description,
@@ -52,7 +52,7 @@ setup(
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5.3',
+        'Programming Language :: Python :: 3.5',
     ],
 
     # What does your project relate to?
