@@ -5,7 +5,7 @@ import mimetypes
 import cv2
 from .page import Page
 
-acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpg", "video/JPEG", "video/jpeg2000"]
+acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpeg", "image/jpg", "video/JPEG", "video/jpeg2000"]
 
 def main():
     """Entry point for the application script"""
