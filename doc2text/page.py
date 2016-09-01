@@ -9,6 +9,7 @@ import pytesseract
 import os
 import traceback
 import sys
+from scipy.optimize import minimize
 
 class Page:
     def __init__(self, im, page_num):
@@ -74,7 +75,8 @@ def downscale_image(im, max_dim=2048):
         return 1.0, im
 
     scale = 1.0 * max_dim / max(a, b)
-    new_im = cv2.resize(im, (int(b * scale), int(a * scale)), cv2.INTER_AREA)
+    new_im = cv2.resize(im, (int(b * scale), int(a * scale)),
+                        interpolation=cv2.INTER_AREA)
     return scale, new_im
 
 def find_components(im, max_components=16):
@@ -263,6 +265,54 @@ def compute_skew(theta):
 
 def process_skewed_crop(image):
     theta = compute_skew(estimate_skew(image))
-    ret, thresh = cv2.threshold(image.copy(),0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    _, _, new_im = optimize_light(image)
+    ret, thresh = cv2.threshold(new_im.copy(),0,255,
+                                cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     rotated = rotate(thresh, theta)
     return (rotated, theta)
+
+
+
+def get_op_im(pars, dwn_im):
+    """
+    Reshape the parameters and compute the corresponding corrected image
+    """
+    offset = np.reshape(pars, dwn_im.shape)
+    new_im = offset + dwn_im
+    return offset, new_im
+
+
+def cost(pars, dwn_im, orig_lap, k1, k2):
+    """"
+    Cost function getting optimized.
+    Two parameters are considered:
+        - Getting the image close to white (bg_term)
+        - Preserving the laplacian of the image
+    """
+    offset, new_im = get_op_im(pars, dwn_im)
+    new_lap = cv2.Laplacian(new_im, cv2.CV_64F)
+    bg_term = k1 * np.sum(np.square(new_im - 255))
+    contrast_term = k2 * np.sum(np.square(new_lap - orig_lap))
+    return bg_term  + contrast_term
+
+
+def optimize_light(image, k1=1, k2=50):
+    """"
+    Try to get an homogeneous white background while preserving good contrast.
+    As we down sample the image a lot, it will only work for slowly varying
+    illuminations
+    """
+    _, im = downscale_image(image, 50)
+    orig_lap = cv2.Laplacian(im, cv2.CV_64F)
+    nb_px = np.prod(im.shape)
+
+    offset = np.zeros(nb_px) + (255 - np.mean(image))
+    res = minimize(cost, offset, (im, orig_lap, k1, k2), method='CG',
+                   options={'maxiter': 5})
+
+    op_pars = res.x
+    offset, new_im = get_op_im(op_pars, im)
+    s_off = cv2.resize(offset, image.shape[::-1], interpolation=cv2.INTER_CUBIC)
+    new_im = cv2.convertScaleAbs(image + s_off)
+
+    return res, s_off, new_im
