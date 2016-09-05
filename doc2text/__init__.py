@@ -20,7 +20,8 @@ FileNotAcceptedException = Exception(
 
 
 class Document(object):
-    def __init__(self):
+    def __init__(self, lang=None):
+        self.lang = lang
         self.pages = []
         self.processed_pages = []
         self.page_content = []
@@ -52,7 +53,7 @@ class Document(object):
                     im.read(path)
                     im.write(im_path)
                     orig_im = cv2.imread(im_path, 0)
-                    page = Page(orig_im, i)
+                    page = Page(orig_im, i, self.lang)
                     self.pages.append(page)
                     os.remove(path)
                     os.remove(im_path)

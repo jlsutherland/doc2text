@@ -12,12 +12,13 @@ import pytesseract
 
 
 class Page(object):
-    def __init__(self, im, page_num):
+    def __init__(self, im, page_num, lang=None):
         self.healthy = True
         self.err = False
         self.page_num = page_num
         self.orig_im = im
         self.orig_shape = self.orig_im.shape
+        self.lang = lang
 
     def crop(self):
         try:
@@ -43,7 +44,7 @@ class Page(object):
     def extract_text(self):
         temp_path = 'text_temp.png'
         cv2.imwrite(temp_path, self.image)
-        self.text = pytesseract.image_to_string(Image.open(temp_path))
+        self.text = pytesseract.image_to_string(Image.open(temp_path), lang=self.lang)
         os.remove(temp_path)
         return self.text
 
