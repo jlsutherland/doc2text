@@ -7,6 +7,15 @@ doc2text
 .. image:: https://badge.fury.io/py/doc2text.svg
     :target: https://badge.fury.io/py/doc2text
 
+|
+
+.. image:: docs/assets/images/news-button.png
+   :alt: Signup for Announcements
+   :target: http://eepurl.com/celDRz
+   :width: 200px
+
+|
+
 
 `doc2text` extracts higher quality text by fixing common scan errors
 --------------------------------------------------------------------
