@@ -12,7 +12,7 @@ doc2text
 .. image:: docs/assets/images/news-button.png
    :alt: Signup for Announcements
    :target: http://eepurl.com/celDRz
-   :width: 200px
+   :width: 150px
 
 |
 
