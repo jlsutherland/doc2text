@@ -1,21 +1,25 @@
-import PyPDF2 as pyPdf
-import PythonMagick
+# coding=utf-8
+
 import os
 import mimetypes
+
+import PyPDF2 as pyPdf
+import PythonMagick
 import cv2
+
 from .page import Page
 
-acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpg", "video/JPEG", "video/jpeg2000"]
 
-def main():
-    """Entry point for the application script"""
-    print("Call your main application code here")
+acceptable_mime = ["image/bmp", "image/png", "image/tiff", "image/jpeg",
+                   "image/jpg", "video/JPEG", "video/jpeg2000"]
 
 
-FileNotAcceptedException = Exception('The filetype is not acceptable. We accept bmp, png, tiff, jpg, jpeg, jpeg2000, and PDF.')
+FileNotAcceptedException = Exception(
+    'The filetype is not acceptable. We accept bmp, png, tiff, jpg, jpeg, jpeg2000, and PDF.'
+)
 
 
-class Document:
+class Document(object):
     def __init__(self):
         self.pages = []
         self.processed_pages = []
@@ -74,7 +78,7 @@ class Document:
 
         # Otherwise, out of luck.
         else:
-            print self.mime_type[0]
+            print(self.mime_type[0])
             raise FileNotAcceptedException
 
     def process(self):
