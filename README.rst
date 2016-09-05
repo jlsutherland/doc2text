@@ -14,8 +14,6 @@ doc2text
    :target: http://eepurl.com/celDRz
    :width: 250px
 
-|
-
 
 `doc2text` extracts higher quality text by fixing common scan errors
 --------------------------------------------------------------------
