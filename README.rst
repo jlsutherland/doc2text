@@ -12,8 +12,12 @@ doc2text
 .. image:: docs/assets/images/news-button.png
    :alt: Signup for Announcements
    :target: http://eepurl.com/celDRz
-   :width: 250px
+   :width: 500px
 
+.. image:: https://peachtree.ai/images/doc2text.png
+   :alt: doc2text Example
+   :target: https://peachtree.ai/images/doc2text.png
+   :width: 250px
 
 `doc2text` extracts higher quality text by fixing common scan errors
 --------------------------------------------------------------------
