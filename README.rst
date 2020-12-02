@@ -43,7 +43,7 @@ To install the `doc2text` package, simply:
 
 .. code-block:: python
 
-   pip install doc2text
+   pip3 install doc2text
 
 `doc2text` relies on the `OpenCV <http://github.com/opencv/opencv>`_, `tesseract <http://github.com/tesseract-ocr/tesseract>`_, and `PythonMagick` libraries. To execute the quick-install script, which installs OpenCV, tesseract, and PythonMagick:
 
@@ -56,7 +56,7 @@ Manual installation
 To install OpenCV manually:
 
 .. code-block:: bash
-
+   sudo apt-get install python3-pip 
    sudo apt-get install -y build-essential
    sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
    sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
@@ -89,12 +89,16 @@ To install PythonMagick manually:
 Example usage
 -------------
 
-.. code-block:: python
+.. code-block:: python3
 
    import doc2text
 
    # Initialize the class.
    doc = doc2text.Document()
+   
+   # For pip3 installation error 
+    sudo apt-get install libgcc-6 libdev-9 
+   # This will solve the unmet dependencies error
 
    # You can pass the lang (as 3 letters code) to the class to improve accuracy
    # On ubuntu it requires the package tesseract-ocr-$lang$
